@@ -304,8 +304,10 @@ body {
     transform: scale(1.05);
 }
 
-.service-box:hover h4 {
-    color: var(--white);
+.service-box:hover h4,
+.service-box:hover p,
+.service-box:hover * {
+    color: var(--white) !important;
 }
 
 .service-box h4 {
