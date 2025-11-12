@@ -13,11 +13,8 @@
             <div class="progress-fill"></div>
         </div>
 
-        <!-- Slide Counter -->
-        <div class="slide-counter">
-            <span id="current-slide">1</span> / <span id="total-slides">8</span>
-            <span class="timer" id="timer">00:00</span>
-        </div>
+        <!-- Slides Wrapper -->
+        <div class="slides-wrapper">
 
         <!-- Slide 1: Title -->
         <section class="slide active" id="slide-1">
@@ -537,18 +534,39 @@ Reasoning: Non-mirroring for negative emotion</pre>
             </div>
         </section>
 
+        </div><!-- End slides-wrapper -->
+
         <!-- Navigation Controls -->
-        <div class="controls">
-            <button id="prev-btn" class="nav-btn">← Previous</button>
-            <button id="next-btn" class="nav-btn">Next →</button>
-            <button id="toggle-notes-btn" class="toggle-btn">📝 Notes</button>
-            <button id="fullscreen-btn" class="toggle-btn">⛶ Fullscreen</button>
-            <button id="reset-timer-btn" class="toggle-btn">⏱️ Reset Timer</button>
+        <div class="navigation-controls">
+            <div class="nav-buttons">
+                <button id="prev-slide">← Previous</button>
+                <button id="next-slide">Next →</button>
+            </div>
+            <div class="slide-info">
+                <span class="slide-counter" id="slide-counter">1 / 8</span>
+                <span class="timer" id="timer">00:00</span>
+            </div>
+            <div class="nav-buttons">
+                <button id="toggle-notes">Show Notes</button>
+                <button id="fullscreen">Fullscreen</button>
+                <button id="reset-timer">Reset Timer</button>
+                <button id="help">Help (?)</button>
+            </div>
         </div>
 
-        <!-- Keyboard shortcuts help -->
-        <div class="shortcuts-help">
-            <p>⌨️ Shortcuts: Arrow Keys (navigate) | N (toggle notes) | F (fullscreen) | R (reset timer)</p>
+        <!-- Keyboard Shortcuts Help -->
+        <div class="keyboard-shortcuts" id="keyboard-shortcuts">
+            <h3>Keyboard Shortcuts</h3>
+            <ul>
+                <li><kbd>→</kbd> <kbd>Space</kbd> <span>Next slide</span></li>
+                <li><kbd>←</kbd> <span>Previous slide</span></li>
+                <li><kbd>Home</kbd> <span>First slide</span></li>
+                <li><kbd>End</kbd> <span>Last slide</span></li>
+                <li><kbd>N</kbd> <span>Toggle speaker notes</span></li>
+                <li><kbd>F</kbd> <span>Toggle fullscreen</span></li>
+                <li><kbd>R</kbd> <span>Reset timer</span></li>
+                <li><kbd>?</kbd> <kbd>H</kbd> <span>Toggle help</span></li>
+            </ul>
         </div>
     </div>
 

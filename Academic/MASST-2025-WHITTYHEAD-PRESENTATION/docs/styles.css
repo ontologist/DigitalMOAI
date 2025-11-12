@@ -298,9 +298,14 @@ body {
 }
 
 .service-box:hover {
-    background: var(--primary-blue);
+    background: var(--accent-orange);
     color: var(--white);
+    border-color: var(--accent-orange);
     transform: scale(1.05);
+}
+
+.service-box:hover h4 {
+    color: var(--white);
 }
 
 .service-box h4 {
