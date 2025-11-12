@@ -192,6 +192,302 @@ body {
     transform: rotate(-5deg);
 }
 
+/* === MANGA CHARACTER STYLES === */
+.manga-character-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: var(--spacing-sm) 0;
+}
+
+.manga-character {
+    font-size: 5rem;
+    font-family: 'Arial Unicode MS', sans-serif;
+    margin: var(--spacing-sm) 0;
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.2));
+    animation: subtle-float 3s ease-in-out infinite;
+}
+
+.manga-character.large {
+    font-size: 6rem;
+    animation: cry-shake 0.5s ease-in-out infinite;
+}
+
+.manga-character-broken {
+    font-size: 5rem;
+    animation: break-down 1s ease-out;
+}
+
+@keyframes subtle-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes cry-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+}
+
+@keyframes break-down {
+    0% { transform: scale(1) rotate(0deg); opacity: 1; }
+    50% { transform: scale(0.8) rotate(-5deg); opacity: 0.8; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.character-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-top: var(--spacing-xs);
+}
+
+/* === MANGA AI CHARACTER === */
+.manga-ai-character {
+    position: relative;
+    margin: var(--spacing-sm) 0;
+}
+
+.ai-face {
+    font-size: 4rem;
+    animation: cheerful-bounce 1s ease-in-out infinite;
+}
+
+@keyframes cheerful-bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-10px) scale(1.1); }
+}
+
+.ai-sparkles {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 1.5rem;
+    animation: sparkle-rotate 2s linear infinite;
+}
+
+@keyframes sparkle-rotate {
+    0% { transform: rotate(0deg); opacity: 1; }
+    50% { transform: rotate(180deg); opacity: 0.6; }
+    100% { transform: rotate(360deg); opacity: 1; }
+}
+
+/* === MANGA EFFECTS === */
+.speed-lines {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background:
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 10px,
+            rgba(0, 0, 0, 0.05) 10px,
+            rgba(0, 0, 0, 0.05) 11px
+        );
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.shock-lines {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 8px,
+            rgba(214, 48, 49, 0.1) 8px,
+            rgba(214, 48, 49, 0.1) 9px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 8px,
+            rgba(214, 48, 49, 0.1) 8px,
+            rgba(214, 48, 49, 0.1) 9px
+        );
+    pointer-events: none;
+    animation: shock-pulse 0.3s ease-in-out infinite;
+}
+
+@keyframes shock-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.sweat-drops {
+    position: absolute;
+    top: 20%;
+    right: 15%;
+    font-size: 1.5rem;
+    animation: sweat-drip 1s ease-in-out infinite;
+}
+
+@keyframes sweat-drip {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(10px); opacity: 0.5; }
+}
+
+.broken-heart-manga {
+    font-size: 3rem;
+    animation: heartbreak-manga 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbreak-manga {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.1) rotate(-10deg); }
+    75% { transform: scale(0.9) rotate(10deg); }
+}
+
+/* === MANGA TEXT EFFECTS === */
+.manga-effect-text {
+    position: absolute;
+    font-family: 'MS Gothic', 'Hiragino Kaku Gothic Pro', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 900;
+    opacity: 0.4;
+    color: #000;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+}
+
+.manga-effect-text.top-left {
+    top: 15%;
+    left: 10%;
+    transform: rotate(-15deg);
+}
+
+.manga-effect-text.bottom-right {
+    bottom: 15%;
+    right: 10%;
+    font-size: 1.5rem;
+    transform: rotate(5deg);
+}
+
+.manga-effect-text.center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-5deg);
+    font-size: 1.8rem;
+    opacity: 0.3;
+}
+
+.manga-sound-effect {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-family: 'MS Gothic', 'Hiragino Kaku Gothic Pro', sans-serif;
+    font-weight: 900;
+    font-size: 2rem;
+    color: #d63031;
+    text-shadow:
+        2px 2px 0 #fff,
+        3px 3px 0 #000;
+    animation: manga-impact 0.5s ease-in-out infinite;
+    line-height: 1.2;
+}
+
+@keyframes manga-impact {
+    0%, 100% { transform: scale(1) rotate(-2deg); }
+    50% { transform: scale(1.05) rotate(2deg); }
+}
+
+.romaji-small {
+    font-size: 0.5rem;
+    display: block;
+    letter-spacing: 1px;
+}
+
+/* === MANGA SPEECH BUBBLES === */
+.speech-bubble.manga-narration {
+    background: #fffacd;
+    border: 3px solid #000;
+    border-style: double;
+    font-style: normal;
+    text-align: center;
+}
+
+.speech-bubble.manga-thought-bubble {
+    background: white;
+    border: 3px solid #000;
+    border-radius: 50px;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.speech-bubble.manga-thought-bubble:before,
+.speech-bubble.manga-thought-bubble:after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 30%;
+    width: 15px;
+    height: 15px;
+    background: white;
+    border: 3px solid #000;
+    border-radius: 50%;
+}
+
+.speech-bubble.manga-thought-bubble:after {
+    width: 10px;
+    height: 10px;
+    bottom: -35px;
+    left: 20%;
+}
+
+.speech-bubble.manga-ai-bubble {
+    background: white;
+    border: 3px solid #000;
+    position: relative;
+}
+
+.speech-bubble.manga-ai-bubble:after {
+    content: '♪';
+    position: absolute;
+    top: -15px;
+    right: 10px;
+    font-size: 1.5rem;
+}
+
+.japanese-text {
+    display: block;
+    font-family: 'MS Gothic', 'Hiragino Kaku Gothic Pro', 'Yu Gothic', sans-serif;
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.japanese-large {
+    font-family: 'MS Gothic', 'Hiragino Kaku Gothic Pro', 'Yu Gothic', sans-serif;
+    font-size: 2rem;
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+.romaji {
+    font-size: 0.75rem;
+    color: #666;
+    font-style: italic;
+}
+
+.manga-action {
+    text-align: center;
+}
+
+.manga-outcome {
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
 .character-avatar {
     font-size: 4rem;
     margin: var(--spacing-sm) 0;
