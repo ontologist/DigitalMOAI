@@ -1,0 +1,124 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{WittyHead: A Multi-Modal Architecture for Empathetic Human-Agent Collaboration Through Emotional Expressivity}
+
+\author{\IEEEauthorblockN{Yuri A. Tijerino}
+\IEEEauthorblockA{\textit{Kwansei Gakuin University, Intelligent Blockchain+ Innovation Research Center}\\
+Sanda, Hyogo, Japan, ontologist@kwansei.ac.jp, https://linkedin.com/ontologist}
+}
+
+
+\maketitle
+Online Presentation\\
+\begin{abstract}
+Multi-agent systems supporting vulnerable populations require authentic emotional expression beyond conversational capability. This paper presents WittyHead, an anthropomorphic empathetic agent with coordinated facial expressions, gaze, gestures, and voice. WittyHead addresses three MASST priorities: (1) context-aware behavioral guard rails through ontology-driven emotion validation, (2) mutual observability through explainable multi-modal reasoning, and (3) design-time risk mitigation through therapeutic alliance research integration. Based on evidence that empathetic responses require compassionate concern rather than emotional mirroring \cite{gilbert2019compassion}, WittyHead implements asymmetric response mappings coordinating FACS-validated facial expressions, therapeutic eye contact, and prosodic-aligned gestures for privacy-preserving community support through Digital MOAI networks.
+\end{abstract}
+
+\begin{IEEEkeywords}
+multi-agent safety, empathetic agents, emotional expressivity, therapeutic alliance, behavioral guard rails
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+Multi-agent systems (MAS) serving vulnerable populations face critical safety requirements: preventing inappropriate emotional responses, maintaining transparent reasoning, and mitigating design-time risks \cite{bradshaw2024masst}. Current empathetic agents exhibit a fundamental flaw: simple emotional mirroring that can exacerbate user distress \cite{gilbert2019compassion}. Therapeutic alliance research demonstrates that empathetic responses to distress require compassionate concern, not mirrored negative emotions---smiling at someone experiencing distress is perceived as ``invalidating and aversive'' \cite{gilbert2019compassion}.
+
+WittyHead is an anthropomorphic multi-modal empathetic agent implementing evidence-based emotional expressivity through coordinated facial expressions (FACS), gaze (therapeutic alliance), gestures (prosodic-aligned), and voice modulation. The system serves as the empathetic interface for Digital MOAI \cite{buettner2008blue}, AI-enhanced mutual aid networks for vulnerable populations including foster care youth, elderly, and individuals experiencing mental health challenges.
+
+\section{MASST-Aligned Architecture}
+
+\subsection{Context-Aware Behavioral Guard Rails}
+
+WittyHead implements three layers of behavioral safety:
+
+\textbf{Empathetic Response Mapping:} Asymmetric emotion mappings prevent invalidating mirroring. Table \ref{tab:empathy-map} shows evidence-based mappings where user distress (sad, angry, fear) triggers compassionate concern, not mirrored distress. This implements Gilbert et al.'s finding that compassionate expressions achieve significantly higher empathy ratings than mirrored negative emotions \cite{gilbert2019compassion}.
+
+\begin{table}[h]
+\centering
+\caption{Empathetic Response Mapping}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{User Emotion} & \textbf{Avatar Response} & \textbf{Safety Rationale} \\
+\hline
+Sad & Compassionate Concern & Prevent mirroring \\
+Angry & Calm Concern & De-escalation \\
+Fear & Reassuring & Protective stability \\
+Happy & Happy & Reinforce positive \\
+\hline
+\end{tabular}
+\label{tab:empathy-map}
+\end{table}
+
+\textbf{Ontology-Driven Validation:} Medical ontologies block inappropriate responses (e.g., celebratory expressions for serious diagnoses).
+
+\textbf{Accessibility Guard Rails:} WCAG 2.1 AAA compliance \cite{w3c2018wcag} ensures expressions accommodate visual, auditory, motor, and cognitive disabilities.
+
+\subsection{Mutual Observability}
+
+WittyHead provides explainable multi-modal reasoning enabling human oversight:
+
+\textbf{Transparency:} System logs specify: ``User emotion: Sad (0.8 intensity) → Avatar response: Compassionate Concern with 75\% eye contact (therapeutic alliance), palm-up gestures (openness), FACS AU4+AU6+AU12 (concern+warmth).''
+
+\textbf{Multi-Modal Coordination:} Six services ensure synchronized expressivity: Emotion Detection, Empathetic Response Orchestrator, Facial Expression Manager (FACS-validated ARKit blendshapes), Gaze Manager (therapeutic eye contact \cite{dowell2013therapist}), Gesticulation Manager (prosodic-aligned \cite{loehr2012temporal}), Voice Modulation. Central orchestrator ensures 60 FPS synchronization.
+
+\textbf{Reasoning Traces:} Decisions traceable to evidence \cite{gilbert2019compassion,dowell2013therapist,pease2006definitive}.
+
+\subsection{Design-Time Risk Mitigation}
+
+WittyHead integrates therapeutic alliance research preventing empathy failures before deployment:
+
+\textbf{FACS-Validated Expressions:} Facial Action Coding System \cite{ekman1978facial} provides scientific basis for expressions. Compassionate concern implements AU4 (brow lowerer) + AU6 (cheek raiser) + gentle AU12 (lip corner puller), validated by Gilbert et al. \cite{gilbert2019compassion} as conveying understanding without sharing distress.
+
+\textbf{Therapeutic Eye Contact:} Research demonstrates that high eye contact enhances therapeutic alliance and empathy \cite{dowell2013therapist}. Approach-avoidance theory \cite{adams2005effects} informs gaze direction for different emotional contexts.
+
+\textbf{Prosodic Gesture Alignment:} Gestures synchronize with prosodic peaks \cite{loehr2012temporal}. Palm orientation signals trust vs. dominance \cite{pease2006definitive}.
+
+\section{Digital MOAI Integration}
+
+WittyHead provides the empathetic interface for Digital MOAI, AI-enhanced Okinawan mutual aid networks (模合, moai) serving vulnerable populations \cite{buettner2008blue}.
+
+\textbf{Privacy-Preserving:} Local-first emotion processing on AIngle DLT platform (EU H2020 FASTER \cite{faster2019h2020}) enables real-time expressivity (0.16ms latency). \textbf{User-Controlled:} Three automation levels provide explicit consent for AI emotional responses. \textbf{Safety-Critical:} Targets foster care youth, elderly experiencing social isolation, mental health support \cite{kotoku2021ai}.
+
+\section{Implementation}
+
+\textbf{Compassionate Concern Expression:} ARKit blendshapes implement validated FACS pattern: AU4 (brow lowerer), AU6 (cheek raiser), gentle AU12 (lip corner puller) \cite{gilbert2019compassion}.
+
+\textbf{Multi-Modal Coordination:} Direct gaze enhances approach emotions \cite{adams2005effects}. Beat gestures align with pitch peaks \cite{loehr2012temporal}. Eye contact marks turn-yielding \cite{vertegaal2001eye}.
+
+\section{Discussion}
+
+\subsection{MASST Initiative Contributions}
+
+WittyHead demonstrates three safety mechanisms for empathetic MAS:
+
+\textbf{Behavioral Guard Rails:} Asymmetric emotion mappings prevent invalidating mirroring \cite{gilbert2019compassion}. Ontology-driven validation blocks inappropriate responses. Accessibility guard rails ensure inclusive support.
+
+\textbf{Mutual Observability:} Explainable reasoning enables oversight. Decisions traceable to research \cite{dowell2013therapist,gilbert2019compassion}.
+
+\textbf{Design-Time Mitigation:} Integration of therapeutic alliance research \cite{gilbert2019compassion,dowell2013therapist}, FACS \cite{ekman1978facial}, gesture-prosody coordination \cite{loehr2012temporal} prevents empathy failures before deployment.
+
+\subsection{Implications for Empathetic MAS}
+
+Beyond emotional mirroring paradigm: Empathy requires different strategies for positive vs. negative emotions. Mirrored distress undermines trust with vulnerable populations \cite{gilbert2019compassion}. WittyHead demonstrates multi-modal coordination can implement therapeutic alliance principles for safe, effective empathetic agents.
+
+Digital Therapeutic Alliance (DTA) extension: While DTA research focuses on text-based chatbots \cite{beatty2022wysa,dalfonso2020digital}, WittyHead extends to multi-modal embodied agents. Coordinated nonverbal cues (facial, gaze, gesture) grounded in face-to-face therapeutic research enable anthropomorphic empathetic expressivity beyond conversational agents.
+
+\section{Conclusion}
+
+WittyHead demonstrates that safe empathetic multi-agent systems require: (1) behavioral guard rails preventing invalidating emotional mirroring, (2) explainable multi-modal reasoning enabling human oversight, and (3) design-time risk mitigation through therapeutic alliance research integration. Evidence that empathy requires compassionate concern rather than mirroring \cite{gilbert2019compassion} informs asymmetric response mappings coordinating FACS-validated expressions, therapeutic eye contact, and prosodic gestures. Integration with Digital MOAI demonstrates privacy-preserving community support for vulnerable populations. Future work will validate through human subjects research (JSPS KAKENHI Grant JP23K01882) employing DTA measurement instruments \cite{beatty2022wysa} to assess anthropomorphic avatar alliance beyond text-based agents.
+
+\section*{Acknowledgments}
+JSPS KAKENHI Grant JP23K01882 (PI: K. Kotoku). EU H2020 FASTER (Grant 833507).
+
+\bibliographystyle{IEEEtran}
+\bibliography{references-v4}
+
+\end{document}

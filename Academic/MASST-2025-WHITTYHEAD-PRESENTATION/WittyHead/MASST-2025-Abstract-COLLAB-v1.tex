@@ -1,0 +1,183 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+% Recommended IEEE packages
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[utf8]{inputenc}
+
+% Fix for Japanese characters
+\usepackage{CJKutf8}
+
+\begin{document}
+
+\title{Digital MOAI: AI-Enhanced Traditional Mutual Aid Networks for Vulnerable Communities\\
+{\normalsize MASST 2025 Workshop, IEEE/WIC Int'l Conf. on Web Intelligence and Intelligent Agent Technology}\\
+{\normalsize November 14-15, 2025, London, UK}
+}
+
+\author{
+\IEEEauthorblockN{Kazuko Kotoku}
+\IEEEauthorblockA{\textit{Department of Fundamental Nursing, School of Nursing}\\
+\textit{Faculty of Medicine, Fukuoka University}\\
+Japan\\
+Email: kotoku@fukuoka-u.ac.jp}
+\and
+\IEEEauthorblockN{Yasushi Miyazaki}
+\IEEEauthorblockA{\textit{Intelligent Blockchain+ Innovation Research Center}\\
+\textit{Kwansei Gakuin University}\\
+Nishinomiya, Japan\\
+Email: myzk@kwansei.ac.jp}
+\and
+\IEEEauthorblockN{Yuri Tijerino}
+\IEEEauthorblockA{\textit{Department of Applied Informatics}\\
+\textit{Intelligent Blockchain+ Innovation Research Center}\\
+\textit{Kwansei Gakuin University}\\
+Nishinomiya, Japan\\
+Email: ontologist@kwansei.ac.jp\\
+\textit{Corresponding Author}}
+}
+
+\maketitle
+
+\begin{abstract}
+Multi-agent systems supporting vulnerable populations face critical challenges in safety, trust calibration, and privacy preservation. We present \textbf{Digital MOAI}, an AI-enhanced adaptation of traditional Okinawan mutual aid networks (\begin{CJK}{UTF8}{min}模合\end{CJK}, moai), demonstrating how proven centuries-old human social structures can be augmented---not replaced---by multi-agent artificial intelligence. Built on the privacy-preserving AIngle DLT platform (developed for H2020 FASTER emergency response initiative), Digital MOAI addresses multi-agent safety through: (1) human-centric architectural design preserving traditional five-person support groups, (2) semantic context-awareness enabling cultural and accessibility considerations, (3) user-controlled trust calibration mechanisms, and (4) local-first data architecture ensuring privacy sovereignty. This work contributes an architectural pattern for human-AI hybrid collectives with empirical application to vulnerable populations including individuals with disabilities, housing insecurity, and healthcare needs.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Multi-agent systems, human-agent teamwork, accessibility, privacy-preserving systems, community support, disability studies, traditional knowledge
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+\subsection{Safety Risks in Current Multi-Agent Approaches}
+
+Current multi-agent architectures predominantly employ reinforcement learning from human feedback (RLHF) with limited consideration for cultural context, individual autonomy, or privacy preservation \cite{christiano2017}. For vulnerable populations---individuals with disabilities, refugees, those experiencing housing instability---AI failures are not mere inconveniences but potential catastrophes: eviction, medical crises, or violation of sensitive personal data.
+
+Existing multi-agent systems for social support prioritize efficiency over safety \cite{jennings2000}, employ centralized data models incompatible with privacy requirements, and lack mechanisms for cultural context-awareness or accessibility accommodation. Without addressing these challenges through ground-up safety design, multi-agent community support systems risk causing more harm than benefit.
+
+\subsection{Trust Calibration and Observability Challenges}
+
+Multi-agent systems compound trust challenges through opacity, unpredictability, and lack of user control. Vulnerable populations require mutual observability and predictability to develop appropriately calibrated trust relationships \cite{bradshaw2012}, yet most implementations provide insufficient transparency about agent decision-making processes and limited mechanisms for human oversight.
+
+\subsection{Privacy and Data Sovereignty Risks}
+
+Centralized data storage creates existential risks for vulnerable populations: deportation for undocumented immigrants, discrimination for LGBTQ+ individuals, violence for domestic abuse survivors. Traditional multi-agent architectures fail to address these fundamental privacy requirements.
+
+\section{Technical Approach and Contributions}
+
+\subsection{Traditional MOAI as Foundational Architecture}
+
+\textbf{MOAI} (\begin{CJK}{UTF8}{min}模合\end{CJK}) represents a centuries-old Okinawan social innovation: mutual aid collectives of exactly five individuals providing lifelong financial, emotional, and practical support \cite{buettner2008}. The Okinawa Centenarian Study (1975-present), the world's longest continuously running longevity research, demonstrates MOAI's effectiveness: Okinawa historically exhibited the world's highest concentration of centenarians, with significantly lower rates of cardiovascular disease, cancer, and cognitive decline \cite{suzuki2001,poulain2024}. Research confirms that social connectedness---with MOAI as foundational structure---correlates strongly with longevity and well-being \cite{willcox2020}. This work investigates how multi-agent AI systems can augment traditional mutual aid networks while preserving their essential human-centric properties, particularly when serving populations with diverse accessibility needs.
+
+\subsection{Design Principles}
+
+Digital MOAI adheres to four core principles:
+
+\begin{enumerate}
+\item \textbf{Human Primacy:} AI augments, never replaces, human relationships and decision-making
+\item \textbf{Accessibility First:} Universal design from initial conception, not retrofitted accommodation
+\item \textbf{Privacy Sovereignty:} Users maintain complete control over personal data
+\item \textbf{Cultural Context-Awareness:} System respects diverse norms, values, and communication styles
+\end{enumerate}
+
+\subsection{Multi-Agent Architecture}
+
+\textbf{Traditional MOAI Structure (Preserved):} Groups consist of exactly five human members who meet regularly and collectively govern automation policies. The five-person limit prevents surveillance-scale data collection while maintaining manageable, accountable relationships.
+
+\textbf{AI Agent Roles:}
+
+\textit{Personal AI Assistants} (one per member): Learn individual preferences, accessibility needs, communication styles, and boundaries. Operate under user's complete control with configurable automation levels (suggestion-only, automatic with notification, automatic with escalation).
+
+\textit{Group Coordinator Agent}: Facilitates scheduling considering accessibility requirements (wheelchair-accessible venues, sign language interpretation), monitors for patterns indicating member distress with human verification, and supports---never replaces---collective decision-making.
+
+\textit{Accessibility Accommodation Agent}: Dynamically adapts interfaces based on user abilities (visual, auditory, motor, cognitive), provides alternative input/output modalities, ensures WCAG 2.1 AAA compliance \cite{wcag2018}, and integrates assistive technologies. The agent draws on research in AI applications for healthcare and nursing contexts to support vulnerable populations \cite{kotoku2021}.
+
+\textit{Emergency Response Coordinator}: Provides immediate notification of group members during crises, privacy-preserving location sharing (strictly opt-in, time-limited), and automated connection to emergency services with human confirmation.
+
+\subsection{AIngle DLT Platform}
+
+The AIngle platform, originally developed for H2020 FASTER initiative addressing first responder emergency communication \cite{faster2019}, provides:
+
+\begin{itemize}
+\item \textbf{Privacy-First Architecture:} Local data storage, peer-to-peer synchronization, zero-knowledge design
+\item \textbf{Real-Time Performance:} Verified 0.16ms average latency, 7,142 TPS peak throughput
+\item \textbf{Semantic Knowledge Layer:} RDF/OWL ontologies enabling cultural and contextual reasoning
+\item \textbf{Accessibility Support:} Multiple input/output modalities, ``Easy Japanese'' (Yasashii Nihongo) support \cite{matsuura2022}
+\item \textbf{Offline Operation:} Full functionality without internet connectivity (critical for underserved areas)
+\end{itemize}
+
+\subsection{Accessibility Design Integration}
+
+Informed by Miyazaki's research on disability discourse and barrier-free design \cite{miyazaki2017,miyazaki2007}, Digital MOAI incorporates universal design elements across multiple sensory modalities with disability-specific accommodations:
+
+\begin{itemize}
+\item \textbf{Visual:} Screen reader optimization, high-contrast modes, voice-first interaction
+\item \textbf{Auditory:} Visual alerts, text-based communication alternatives, vibration notifications
+\item \textbf{Motor:} Voice control, switch access, simplified gesture interfaces
+\item \textbf{Cognitive:} Progressive disclosure, simplified language modes, visual supports
+\item \textbf{Cultural/Linguistic:} ``Easy Japanese'' for non-native speakers and persons with cognitive disabilities \cite{matsuura2022}, originally designed for providing accessible information for non-native speakers in natural disaster situations \cite{satoh1995}
+\end{itemize}
+
+\subsection{Trust Calibration Framework}
+
+Digital MOAI provides three user-configurable automation levels:
+
+\textbf{Level 1 - Suggestion Only}: AI proposes actions with full reasoning transparency and waits for explicit human approval. This level is suitable for new users and high-stakes decisions.
+
+\textbf{Level 2 - Automatic with Notification}: AI takes predefined actions and immediately notifies the user with a configurable undo window. This level is suitable for routine tasks with oversight requirements.
+
+\textbf{Level 3 - Automatic with Escalation}: AI acts independently for well-defined routine tasks but immediately escalates anomalies, high-risk situations, or requests beyond its defined scope. This level is suitable for experienced users with calibrated trust relationships.
+
+Groups collectively decide automation policies through consensus, ensuring alignment with shared values and individual comfort levels.
+
+\section{Implementation Status and Validation}
+
+\subsection{Technical Validation}
+
+Comprehensive benchmarking (2M+ operations) confirms real-time performance suitable for emergency response and accessibility requirements: 0.16ms average latency, minimal resource usage enabling deployment on low-cost devices. The platform's semantic knowledge layer builds on established ontology engineering principles \cite{tijerino2005}.
+
+\subsection{Planned Human Subjects Research}
+
+Digital MOAI has the potential to help children in foster care due to abuse or other reasons avoid social isolation. The reality is that children in social welfare turn 18 and are forced to become independent and alone, unable to rely on their biological parents, after the program ends. We plan to test the hypothesis that the emergence of Digital MOAI in this situation will alleviate their feelings of loneliness and isolation. This research will be conducted under JSPS KAKENHI Grant Number JP23K01882.
+
+\section{Discussion and Scientific Contributions}
+
+\subsection{Alternative Safety Paradigm}
+
+Digital MOAI demonstrates an alternative paradigm for multi-agent safety: rather than attempting to make AI ``safe'' through training alone, embed AI within proven human social structures that provide natural guardrails, accountability, and context. Traditional MOAI's five-person limit prevents surveillance-scale data collection while AI augmentation preserves this scale while enhancing coordination and accessibility.
+
+\subsection{Accessibility as Design Principle}
+
+Integrating disability studies perspectives from project inception reveals broader applicability. Features designed for accessibility (voice control, simplified language, flexible timing) benefit all users, particularly older adults, non-native speakers, and those in high-stress situations. Miyazaki's research on ``Easy Japanese'' demonstrates how linguistic accessibility serves multiple populations \cite{miyazaki2007}; Digital MOAI extends this principle across all interaction modalities.
+
+\subsection{Privacy and Data Sovereignty}
+
+Local-first architecture addresses a fundamental challenge for vulnerable populations: centralized data storage creates existential risks. By eliminating central data aggregation, Digital MOAI enables community support without systemic surveillance.
+
+\subsection{Key Scientific Contributions}
+
+\begin{enumerate}
+\item \textbf{Architectural Pattern:} Design principles for AI supporting traditional social structures
+\item \textbf{Accessibility Framework:} Integration of disability studies perspectives into multi-agent design from inception
+\item \textbf{Privacy-Preserving Platform:} Local-first architecture enabling data sovereignty with verified real-time performance
+\item \textbf{Safety Paradigm:} ``Safety by social structure'' where proven human constraints provide natural guardrails
+\item \textbf{Empirical Framework:} Application to vulnerable populations with concrete accessibility and privacy requirements
+\end{enumerate}
+
+\section{Conclusion}
+
+Digital MOAI demonstrates a human-centric approach to multi-agent AI: augmenting centuries-proven social structures (traditional Okinawan MOAI mutual aid networks) with privacy-preserving, accessibility-first technology. By prioritizing human relationships, cultural context, and user control over AI autonomy, this work offers an architectural pattern for multi-agent systems serving vulnerable populations. Future work includes longitudinal studies with diverse MOAI groups and comprehensive accessibility evaluation.
+
+\section*{Acknowledgments}
+
+This research is supported by JSPS KAKENHI Grant Number JP23K01882 (Principal Investigator: Kazuko Kotoku). AIngle DLT platform development was partially supported by European Union H2020 FASTER project (Grant Agreement No. 833507). We thank the Okinawan community for inspiration from traditional MOAI practices.
+
+\bibliographystyle{IEEEtran}
+\bibliography{MASST-2025-Abstract-COLLAB-v1}
+
+\end{document}
