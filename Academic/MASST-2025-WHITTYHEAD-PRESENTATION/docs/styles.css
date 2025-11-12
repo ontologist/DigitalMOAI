@@ -192,13 +192,307 @@ body {
     transform: rotate(-5deg);
 }
 
-/* === MANGA CHARACTER STYLES === */
+/* === KAWAII CHARACTER STYLES === */
 .manga-character-container {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: var(--spacing-sm) 0;
+}
+
+.kawaii-character {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: var(--spacing-md) 0;
+    animation: subtle-float 3s ease-in-out infinite;
+}
+
+.kawaii-character.yui-crying {
+    animation: cry-shake 0.5s ease-in-out infinite;
+}
+
+.kawaii-character.yui-broken {
+    animation: break-down 1.5s ease-out;
+}
+
+.kawaii-face {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background: #ffeaa7;
+    border-radius: 50%;
+    border: 4px solid #2d3436;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+}
+
+.kawaii-face.robot {
+    background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);
+    border-radius: 15px;
+}
+
+/* Hair */
+.hair {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 40px;
+    background: #6c5ce7;
+    border-radius: 50% 50% 0 0;
+    border: 4px solid #2d3436;
+    border-bottom: none;
+    z-index: -1;
+}
+
+.hair:before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: -10px;
+    width: 30px;
+    height: 30px;
+    background: #6c5ce7;
+    border-radius: 50%;
+    border: 4px solid #2d3436;
+}
+
+.hair:after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    background: #6c5ce7;
+    border-radius: 50%;
+    border: 4px solid #2d3436;
+}
+
+/* Eyes */
+.eyes {
+    position: absolute;
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.eye {
+    width: 24px;
+    height: 28px;
+    background: #2d3436;
+    border-radius: 50%;
+    position: relative;
+}
+
+.eye:before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+}
+
+/* Sad eyes */
+.eye.sad {
+    height: 18px;
+    border-radius: 0 0 50% 50%;
+    transform: translateY(5px);
+}
+
+/* Crying eyes */
+.eye.crying {
+    height: 6px;
+    border-radius: 50%;
+    animation: blink-cry 0.5s ease-in-out infinite;
+}
+
+@keyframes blink-cry {
+    0%, 100% { height: 6px; }
+    50% { height: 2px; }
+}
+
+/* Happy eyes */
+.eye.happy {
+    height: 8px;
+    border-radius: 50% 50% 0 0;
+    transform: rotate(180deg);
+}
+
+/* Broken eyes */
+.eye.broken {
+    height: 4px;
+    width: 20px;
+    border-radius: 2px;
+}
+
+.eye.broken:before {
+    display: none;
+}
+
+/* Blush */
+.blush {
+    position: absolute;
+    top: 55px;
+    width: 20px;
+    height: 12px;
+    background: #ff7675;
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+.blush.left {
+    left: 8px;
+}
+
+.blush.right {
+    right: 8px;
+}
+
+/* Mouth */
+.mouth {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.mouth.sad {
+    width: 30px;
+    height: 15px;
+    border: 3px solid #2d3436;
+    border-top: none;
+    border-radius: 0 0 30px 30px;
+}
+
+.mouth.crying {
+    width: 25px;
+    height: 20px;
+    border: 3px solid #2d3436;
+    border-radius: 50%;
+    background: #2d3436;
+}
+
+.mouth.happy {
+    width: 40px;
+    height: 20px;
+    border: 3px solid #2d3436;
+    border-bottom: none;
+    border-radius: 30px 30px 0 0;
+}
+
+.mouth.broken {
+    width: 20px;
+    height: 3px;
+    background: #2d3436;
+    border-radius: 2px;
+}
+
+/* Tears */
+.tear {
+    position: absolute;
+    width: 8px;
+    height: 12px;
+    background: #74b9ff;
+    border-radius: 50% 0 50% 50%;
+    transform: rotate(45deg);
+    animation: tear-fall 1.5s ease-in-out infinite;
+}
+
+.tear.left {
+    top: 60px;
+    left: 20px;
+}
+
+.tear.right {
+    top: 60px;
+    right: 20px;
+    animation-delay: 0.3s;
+}
+
+@keyframes tear-fall {
+    0% {
+        transform: rotate(45deg) translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(45deg) translateY(30px);
+        opacity: 0;
+    }
+}
+
+/* Robot antenna */
+.antenna {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 15px;
+    background: #2d3436;
+}
+
+.antenna:before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background: #fd79a8;
+    border: 3px solid #2d3436;
+    border-radius: 50%;
+    animation: antenna-blink 1s ease-in-out infinite;
+}
+
+@keyframes antenna-blink {
+    0%, 100% { background: #fd79a8; }
+    50% { background: #ff7675; }
+}
+
+/* Sparkles */
+.sparkle {
+    position: absolute;
+    font-size: 1.2rem;
+    animation: sparkle-float 2s ease-in-out infinite;
+}
+
+.sparkle.s1 {
+    top: -15px;
+    left: -15px;
+}
+
+.sparkle.s2 {
+    top: -10px;
+    right: -15px;
+    animation-delay: 0.5s;
+}
+
+.sparkle.s3 {
+    bottom: -10px;
+    right: -10px;
+    animation-delay: 1s;
+}
+
+@keyframes sparkle-float {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-10px) scale(1.2);
+        opacity: 0.7;
+    }
 }
 
 .manga-character {
