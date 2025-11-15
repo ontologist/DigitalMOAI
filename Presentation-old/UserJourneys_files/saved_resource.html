@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<!-- saved from url=(0012)about:srcdoc -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.13/html-to-image.min.js" integrity="sha512-iZ2ORl595Wx6miw+GuadDet4WQbdSWS3JLMoNfY8cRGoEFy6oT3G9IbcrBeL6AfkgpA51ETt/faX6yLV+/gFJg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+      (function() {
+        const originalConsole = window.console;
+        window.console = {
+          log: (...args) => {
+            originalConsole.log(...args);
+            window.parent.postMessage({ type: 'console', message: args.join(' ') }, '*');
+          },
+          error: (...args) => {
+            originalConsole.error(...args);
+            window.parent.postMessage({ type: 'console', message: 'Error: ' + args.join(' ') }, '*');
+          },
+          warn: (...args) => {
+            originalConsole.warn(...args);
+            window.parent.postMessage({ type: 'console', message: 'Warning: ' + args.join(' ') }, '*');
+          }
+        };
+
+        let requestId = 0;
+        let callbacksMap = new Map();
+        window.claude = {
+          complete: (prompt) => {
+            return new Promise((resolve, reject) => {
+              const id = requestId++;
+              callbacksMap.set(id, { resolve, reject });
+              window.parent.postMessage({ type: 'claudeComplete', id, prompt }, '*');
+            });
+          }
+        };
+
+        // Override global fetch
+        window.fetch = (url, init = {}) => {
+          return new Promise((resolve, reject) => {
+            const id = requestId++;
+            callbacksMap.set(id, { resolve, reject });
+            window.parent.postMessage({
+              type: 'proxyFetch',
+              id,
+              url,
+              init,
+            }, '*');
+          });
+        };
+
+        window.addEventListener('message', async (event) => {
+          if (event.data.type === 'takeScreenshot') {
+            const rootElement = document.getElementById('artifacts-component-root-html');
+            if (!rootElement) {
+              window.parent.postMessage({
+                type: 'screenshotError',
+                error: new Error('Root element not found'),
+              }, '*');
+            }
+            const screenshot = await htmlToImage.toPng(rootElement, {
+              imagePlaceholder:
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjePDgwX8ACOQDoNsk0PMAAAAASUVORK5CYII=",
+            });
+            window.parent.postMessage({
+              type: 'screenshotData',
+              data: screenshot,
+            }, '*');
+          } else if (event.data.type === 'claudeComplete') {
+            const callback = callbacksMap.get(event.data.id);
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+            } else {
+              callback.resolve(event.data.completion);
+            }
+            callbacksMap.delete(event.data.id);
+          } else if (event.data.type === 'proxyFetchResponse') {
+            const callback = callbacksMap.get(event.data.id);
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+            } else {
+              callback.resolve(new Response(event.data.body, {
+                status: event.data.status,
+                statusText: event.data.statusText,
+                headers: event.data.headers
+              }));
+            }
+            callbacksMap.delete(event.data.id);
+          }
+        });
+
+        window.addEventListener('click', (event) => {
+          const isEl = event.target instanceof HTMLElement;
+          if (!isEl) return;
+    
+          // find ancestor links
+          const linkEl = event.target.closest("a");
+          if (!linkEl || !linkEl.href) return;
+    
+          event.preventDefault();
+          event.stopImmediatePropagation();
+    
+          let linkUrl;
+          try {
+            linkUrl = new URL(linkEl.href);
+          } catch (error) {
+            return;
+          }
+    
+          if (linkUrl.hostname === window.location.hostname) return;
+    
+          window.parent.postMessage({
+            type: 'openExternal',
+            href: linkEl.href,
+          }, '*');
+      });
+
+        const originalOpen = window.open;
+        window.open = function (url) {
+          window.parent.postMessage({
+            type: "openExternal",
+            href: url,
+          }, "*");
+        };
+
+        window.addEventListener('error', (event) => {
+          window.parent.postMessage({ type: 'console', message: 'Uncaught Error: ' + event.message }, '*');
+        });
+      })();
+    </script>
+  
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sora's Digital MOAI User Journey</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .journey {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 4px solid #673AB7;
+            padding-bottom: 15px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+        }
+        
+        .journey-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .stage {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 3px solid #34495e;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stage:nth-child(odd) {
+            flex-direction: row;
+        }
+        
+        .stage:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        .stage-number {
+            background: #673AB7;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 30px;
+            flex-shrink: 0;
+        }
+        
+        .stage-content {
+            flex: 1;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .stage-visual {
+            width: 300px;
+            height: 200px;
+            position: relative;
+            background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
+            border-radius: 10px;
+            border: 2px solid #34495e;
+            flex-shrink: 0;
+        }
+        
+        .stage-text {
+            flex: 1;
+        }
+        
+        .stage-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .stage-description {
+            font-size: 14px;
+            color: #34495e;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .stage-details {
+            font-size: 12px;
+            color: #7f8c8d;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #673AB7;
+        }
+        
+        .stick-drawing {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .arrow {
+            text-align: center;
+            font-size: 30px;
+            color: #673AB7;
+            margin: 10px 0;
+        }
+        
+        /* Stage-specific backgrounds */
+        .stage1 .stage-visual { background: linear-gradient(45deg, #ffebee 0%, #ffcdd2 100%); }
+        .stage2 .stage-visual { background: linear-gradient(45deg, #e8eaf6 0%, #c5cae9 100%); }
+        .stage3 .stage-visual { background: linear-gradient(45deg, #e3f2fd 0%, #bbdefb 100%); }
+        .stage4 .stage-visual { background: linear-gradient(45deg, #e8f5e8 0%, #c8e6c9 100%); }
+        .stage5 .stage-visual { background: linear-gradient(45deg, #fff3e0 0%, #ffcc80 100%); }
+        .stage6 .stage-visual { background: linear-gradient(45deg, #f1f8e9 0%, #dcedc8 100%); }
+    </style>
+</head>
+<body id="artifacts-component-root-html">
+    <div class="journey">
+        <div class="title">Sora's Digital MOAI User Journey</div>
+        <div class="subtitle">From Family Rejection to Chosen Family &amp; Safe Community (LGBTQ+ Privacy-Protected)</div>
+        
+        <div class="journey-flow">
+            <!-- Stage 1: Discovery Through Crisis Resources -->
+            <div class="stage stage1">
+                <div class="stage-number">1</div>
+                <div class="stage-content">
+                    <div class="stage-visual">
+                        <svg class="stick-drawing" viewBox="0 0 300 200">
+                            <!-- Crisis situation -->
+                            <rect x="20" y="40" width="120" height="80" fill="#FFCDD2" stroke="#333" stroke-width="2"></rect>
+                            <text x="25" y="55" font-size="6" fill="#888">Transitional Housing - Eviction Notice</text>
+                            
+                            <!-- Sora (distressed, seeking help) -->
+                            <circle cx="80" cy="90" r="15" fill="none" stroke="#333" stroke-width="2"></circle>
+                            <!-- Desperate, scared face -->
+                            <circle cx="76" cy="86" r="1" fill="#333"></circle>
+                            <circle cx="84" cy="86" r="1" fill="#333"></circle>
+                            <path d="M 74 96 Q 80 93 86 96" stroke="#333" stroke-width="2" fill="none"></path>
+                            <!-- Stress lines -->
+                            <line x1="70" y1="80" x2="75" y2="85" stroke="#FF0000" stroke-width="2"></line>
+                            <line x1="85" y1="85" x2="90" y2="80" stroke="#FF0000" stroke-width="2"></line>
+                            <line x1="80" y1="105" x2="80" y2="125" stroke="#333" stroke-width="3"></line>
+                            
+                            <!-- Crisis hotline/resource -->
+                            <rect x="100" y="100" width="30" height="35" rx="3" fill="#333" stroke="#000" stroke-width="2"></rect>
+                            <rect x="103" y="103" width="24" height="29" fill="#e8eaf6"></rect>
+                            <text x="105" y="110" font-size="4" fill="#333">LGBTQ+</text>
+                            <text x="105" y="115" font-size="4" fill="#333">Crisis Line</text>
+                            
+                            <!-- MOAI information (anonymized) -->
+                            <rect x="160" y="50" width="120" height="100" fill="white" stroke="#673AB7" stroke-width="2"></rect>
+                            <text x="165" y="65" font-size="8" fill="#333">Jiyuu MOAI</text>
+                            <text x="165" y="75" font-size="6" fill="#333">LGBTQ+ Youth Support</text>
+                            <line x1="165" y1="80" x2="275" y2="80" stroke="#DDD"></line>
+                            
+                            <!-- Anonymous statistics only -->
+                            <text x="165" y="90" font-size="5" fill="#333">📊 7 members, ages 17-22</text>
+                            <text x="165" y="98" font-size="5" fill="#333">🏳️‍🌈 LGBTQ+ affirming space</text>
+                            <text x="165" y="106" font-size="5" fill="#333">🎯 156 crisis interventions</text>
+                            <text x="165" y="114" font-size="5" fill="#333">🏠 Housing assistance provided</text>
+                            <text x="165" y="122" font-size="5" fill="#333">⚖️ Legal advocacy available</text>
+                            <text x="165" y="130" font-size="5" fill="#333">🔒 Complete identity protection</text>
+                            <text x="165" y="138" font-size="5" fill="#4CAF50">✓ Active for 20 months</text>
+                            
+                            <!-- Crisis context -->
+                            <rect x="30" y="140" width="110" height="40" rx="8" fill="white" stroke="#333" stroke-width="2"></rect>
+                            <text x="35" y="152" font-size="6" fill="#333">Crisis counselor:</text>
+                            <text x="35" y="160" font-size="6" fill="#333">"There's a private LGBTQ+ support</text>
+                            <text x="35" y="168" font-size="6" fill="#333">group that helps with housing.</text>
+                            <text x="35" y="175" font-size="5" fill="#333">Your identity stays completely safe"</text>
+                            
+                            <!-- Rainbow flag (small) -->
+                            <rect x="20" y="20" width="20" height="12" fill="#FF0000"></rect>
+                            <rect x="20" y="23" width="20" height="2" fill="#FFD700"></rect>
+                            <rect x="20" y="25" width="20" height="2" fill="#4CAF50"></rect>
+                            <rect x="20" y="27" width="20" height="2" fill="#2196F3"></rect>
+                            <rect x="20" y="29" width="20" height="2" fill="#9C27B0"></rect>
+                        </svg>
+                    </div>
+                    <div class="stage-text">
+                        <div class="stage-title">Crisis Discovery Through LGBTQ+ Resources</div>
+                        <div class="stage-description">
+                            Facing housing eviction and family rejection, Sora contacts an LGBTQ+ crisis hotline. A counselor mentions Jiyuu MOAI, showing only anonymized statistics: member demographics, types of crises handled, and affirming services offered. No personal information about members is disclosed to protect their safety.
+                        </div>
+                        <div class="stage-details">
+                            <strong>Crisis Context:</strong> Housing insecurity, family rejection, identity safety concerns<br>
+                            <strong>Emotions:</strong> Desperate, scared, cautiously hopeful about LGBTQ+ affirmation<br>
+                            <strong>Information Available:</strong> Statistics only, strong privacy assurances
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Stage 2: LGBTQ+-Affirming Secure Contact -->
+            <div class="stage stage2">
+                <div class="stage-number">2</div>
+                <div class="stage-content">
+                    <div class="stage-visual">
+                        <svg class="stick-drawing" viewBox="0 0 300 200">
+                            <!-- Sora making contact -->
+                            <circle cx="80" cy="70" r="15" fill="none" stroke="#333" stroke-width="2"></circle>
+                            <!-- Nervous but hopeful face -->
+                            <circle cx="76" cy="66" r="1" fill="#333"></circle>
+                            <circle cx="84" cy="66" r="1" fill="#333"></circle>
+                            <line x1="76" y1="74" x2="84" y2="74" stroke="#333" stroke-width="1"></line>
+                            <line x1="80" y1="85" x2="80" y2="110" stroke="#333" stroke-width="3"></line>
+                            <line x1="80" y1="95" x2="110" y2="105" stroke="#333" stroke-width="2"></line>
+                            
+                            <!-- Secure LGBTQ+ contact interface -->
+                            <rect x="100" y="95" width="50" height="60" rx="5" fill="#333" stroke="#000" stroke-width="2"></rect>
+                            <rect x="105" y="100" width="40" height="50" fill="#e8eaf6"></rect>
+                            
+                            <!-- LGBTQ+ affirming interface -->
+                            <rect x="108" y="110" width="34" height="35" fill="white" stroke="#333"></rect>
+                            <text x="110" y="118" font-size="4" fill="#333">Safe Contact Form:</text>
+                            <text x="110" y="125" font-size="3" fill="#333">🏳️‍🌈 LGBTQ+ Affirming</text>
+                            <text x="110" y="130" font-size="3" fill="#333">🔒 Anonymous &amp; Encrypted</text>
+                            <text x="110" y="135" font-size="3" fill="#333">🚨 Crisis Priority</text>
+                            <text x="110" y="140" font-size="3" fill="#333">⚖️ Legal protections</text>
+                            
+                            <!-- Affirming response process -->
+                            <rect x="160" y="50" width="120" height="100" fill="white" stroke="#333" stroke-width="2"></rect>
+                            <text x="165" y="65" font-size="8" fill="#333">LGBTQ+ Affirming Contact:</text>
+                            
+                            <text x="165" y="78" font-size="6" fill="#333">🏳️‍🌈 Identity affirmed from start</text>
+                            <text x="165" y="88" font-size="6" fill="#333">🔒 Complete anonymity assured</text>
+                            <text x="165" y="98" font-size="6" fill="#333">🚨 Crisis response prioritized</text>
+                            <text x="165" y="108" font-size="6" fill="#333">⏰ Available 24/7</text>
+                            <text x="165" y="118" font-size="6" fill="#333">🛡️ Safety planning offered</text>
+                            <text x="165" y="128" font-size="6" fill="#333">🏠 Housing resources ready</text>
+                            <text x="165" y="138" font-size="5" fill="#4CAF50">Chosen family connection</text>
+                            
+                            <!-- Affirming response -->
+                            <rect x="40" y="160" width="200" height="30" fill="white" stroke="#333" stroke-width="2"></rect>
+                            <text x="45" y="172" font-size="6" fill="#333">Response from LGBTQ+ facilitator:</text>
+                            <text x="45" y="182" font-size="6" fill="#333">"Your identity is valid. You're safe here. We've helped others in similar crises."</text>
+                        </svg>
+                    </div>
+                    <div class="stage-text">
+                        <div class="stage-title">LGBTQ+-Affirming Secure Crisis Contact</div>
+                        <div class="stage-description">
+                            Sora contacts Jiyuu MOAI through a secure, crisis-prioritized interface. The response immediately affirms his identity and offers comprehensive support while maintaining complete anonymity. The interaction demonstrates understanding of LGBTQ+ specific challenges and safety concerns from the very first contact.
+                        </div>
+                        <div class="stage-details">
+                            <strong>Contact Features:</strong> Identity affirmation, crisis priority, safety planning<br>
+                            <strong>Emotions:</strong> Relief at affirmation, cautious trust building<br>
+                            <strong>LGBTQ+ Competency:</strong> Demonstrates understanding from first interaction
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Stage 3: Safe Identity Protection Setup -->
+            <div class="stage stage3">
+                <div class="stage-number">3</div>
+                <div class="stage-content">
+                    <div class="stage-visual">
+                        <svg class="stick-drawing" viewBox="0 0 300 200">
+                            <!-- Sora setting up secure identity -->
+                            <circle cx="80" cy="70" r="15" fill="none" stroke="#333" stroke-width="2"></circle>
+                            <!-- More hopeful face -->
+                            <circle cx="76" cy="66" r="1" fill="#333"></circle>
+                            <circle cx="84" cy="66" r="1" fill="#333"></circle>
+                            <line x1="76" y1="74" x2="84" y2="74" stroke="#333" stroke-width="1"></line>
+                            <line x1="80" y1="85" x2="80" y2="110" stroke="#333" stroke-width="3"></line>
+                            <line x1="80" y1="95" x2="110" y2="105" stroke="#333" stroke-width="2"></line>
+                            <line x1="80" y1="95" x2="50" y2="105" stroke="#333" stroke-width="2"></line>
+                            
+                            <!-- LGBTQ+ safety setup -->
+                            <rect x="100" y="95" width="40" height="60" rx="5" fill="#333" stroke="#000" stroke-width="2"></rect>
+                            <rect x="105" y="100" width="30" height="50" fill="#e3f2fd"></rect>
+                            
+                            <!-- AI assistant (LGBTQ+ aware) -->
+                            <circle cx="120" cy="120" r="8" fill="#673AB7" stroke="#333" stroke-width="1"></circle>
+                            <rect x="116" y="116" width="2" height="2" fill="white"></rect>
+                            <rect x="122" y="116" width="2" height="2" fill="white"></rect>
+                            <rect x="118" y="122" width="4" height="1" fill="white"></rect>
+                            <!-- Rainbow heart -->
+                            <path d="M 116 125 Q 120 128 124 125 Q 128 122 124 119 Q 120 122 116 125" fill="none" stroke="#FF69B4" stroke-width="1"></path>
+                            
+                            <!-- Safety-first setup -->
+                            <rect x="150" y="50" width="130" height="100" fill="white" stroke="#333" stroke-width="2"></rect>
+                            <text x="155" y="65" font-size="8" fill="#333">Safe Identity Protection:</text>
+                            
+                            <text x="155" y="78" font-size="6" fill="#333">✓ Pseudonym: "Phoenix"</text>
+                            <text x="155" y="88" font-size="6" fill="#333">✓ Chosen name/pronouns set</text>
+                            <text x="155" y="98" font-size="6" fill="#333">✓ Crisis detection enabled</text>
+                            <text x="155" y="108" font-size="6" fill="#333">✓ Safe location tracking</text>
+                            <text x="155" y="118" font-size="6" fill="#333">✓ Emergency contact protocol</text>
+                            <text x="155" y="128" font-size="6" fill="#333">✓ Legal resource access</text>
+                            <text x="155" y="138" font-size="5" fill="#4CAF50">Maximum safety priority</text>
+                            
+                            <!-- Welcome to chosen family -->
+                            <rect x="30" y="160" width="240" height="30" fill="white" stroke="#333" stroke-width="2"></rect>
+                            <text x="35" y="172" font-size="6" fill="#333">Welcome message from chosen family:</text>
+                            <text x="35" y="182" font-size="6" fill="#333">"Welcome Phoenix! You're part of our chosen family now. 🏳️‍🌈 We've got your back."</text>
+                        </svg>
+                    </div>
+                    <div class="stage-text">
+                        <div class="stage-title">Safe Identity Protection &amp; Chosen Family Welcome</div>
+                        <div class="stage-description">
+                            Sora creates his secure identity as "Phoenix" with chosen name and pronouns properly configured. The AI is set up with LGBTQ+-specific crisis detection and safety protocols. He's welcomed into the "chosen family" community where his identity is completely protected while his authentic self is fully affirmed and supported.
+                        </div>
+                        <div class="stage-details">
+                            <strong>Safety Features:</strong> Chosen identity, crisis detection, legal protections<br>
+                            <strong>Emotions:</strong> Cautious relief, first sense of belonging, hope<br>
+                            <strong>Identity Affirmation:</strong> Authentic self welcomed and protected
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Stage 4: Private LGBTQ+ Community Support -->
+            <div class="stage stage4">
+                <div class="stage-number">4</div>
+                <div class="stage-content">
+                    <div class="stage-visual">
+                        <svg class="stick-drawing" viewBox="0 0 300 200">
+                            <!-- LGBTQ+ affirming encrypted community -->
+                            <rect x="30" y="40" width="240" height="100" rx="15" fill="#e8f5e8" stroke="#333" stroke-width="3"></rect>
+                            
+                            <!-- Affirming group header -->
+                            <rect x="30" y="40" width="240" height="20" fill="#4CAF50"></rect>
+                            <text x="35" y="52" font-size="8" fill="white">🔒 Jiyuu MOAI - Safe LGBTQ+ Space (Encrypted)</text>
+                            
+                            <!-- Phoenix (Sora) participating -->
+                            <circle cx="80" cy="80" r="12" fill="none" stroke="#333" stroke-width="2"></circle>
+                            <!-- More confident face -->
+                            <circle cx="77" cy="77" r="1" fill="#333"></circle>
+                            <circle cx="83" cy="77" r="1" fill="#333"></circle>
+                            <line x1="77" y1="83" x2="83" y2="83" stroke="#333" stroke-width="1"></line>
+                            <line x1="80" y1="92" x2="80" y2="115" stroke="#333" stroke-width="2"></line>
+                            
+                            <!-- Other LGBTQ+ members (pseudonyms) -->
+                            <circle cx="130" cy="80" r="10" fill="none" stroke="#333" stroke-width="1"></circle>
+                            <circle cx="180" cy="80" r="10" fill="none" stroke="#333" stroke-width="1"></circle>
+                            <circle cx="220" cy="80" r="10" fill="none" stroke="#333" stroke-width="1"></circle>
+                            <circle cx="105" cy="105" r="8" fill="none" stroke="#333" stroke-width="1"></circle>
+                            <circle cx="155" cy="105" r="8" fill="none" stroke="#333" stroke-width="1"></circle>
+                            
+                            <!-- LGBTQ+ affirming pseudonyms -->
+                            <text x="70" y="130" font-size="5" fill="#333">"Phoenix" 🔥</text>
+                            <text x="115" y="100" font-size="5" fill="#333">"Storm" ⚡</text>
+                            <text x="170" y="100" font-size="5" fill="#333">"Luna" 🌙</text>
+                            <text x="210" y="100" font-size="5" fill="#333">"River" 🌊</text>
+                            <text x="90" y="120" font-size="5" fill="#333">"Sage" 🌿</text>
+                            
+                            <!-- Supportive encrypted chat -->
+                            <rect x="50" y="150" width="200" height="40" fill="white" stroke="#333" stroke-width="2"></rect>
+                            <text x="55" y="162" font-size="6" fill="#333">Safe Space Support (all encrypted):</text>
+                            <text x="55" y="172" font-size="5" fill="#333">Phoenix: "Facing eviction... scared about safety"</text>
+                            <text x="55" y="180" font-size="5" fill="#333">Storm: "We've got emergency housing. You're not alone."</text>
+                            <text x="55" y="187" font-size="5" fill="#333">Luna: "Our legal entity can sign leases. We'll protect you."</text>
+                            
+                            <!-- Pride symbols -->
+                            <rect x="20" y="20" width="30" height="15" fill="#FF0000"></rect>
+                            <rect x="20" y="22" width="30" height="2" fill="#FFD700"></rect>
+                            <rect x="20" y="24" width="30" height="2" fill="#4CAF50"></rect>
+                            <rect x="20" y="26" width="30" height="2" fill="#2196F3"></rect>
+                            <rect x="20" y="28" width="30" height="2" fill="#9C27B0"></rect>
+                            <rect x="20" y="30" width="30" height="2" fill="#E91E63"></rect>
+                        </svg>
+                    </div>
+                    <div class="stage-text">
+                        <div class="stage-title">Private LGBTQ+ Affirming Community Participation</div>
+                        <div class="stage-description">
+                            Within the encrypted MOAI, "Phoenix" finds genuine chosen family who understand LGBTQ+ specific challenges. When he shares his housing crisis, the community immediately mobilizes with both emotional support and practical resources, including legal entity assistance for safe housing arrangements.
+                        </div>
+                        <div class="stage-details">
+                            <strong>Community Features:</strong> LGBTQ+ affirming, chosen family dynamics<br>
+                            <strong>Emotions:</strong> Belonging, less isolated, growing trust<br>
+                            <strong>Privacy &amp; Safety:</strong> All interactions encrypted, identities completely protected
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Stage 5: Crisis Housing Support -->
+            <div class="stage stage5">
+                <div class="stage-number">5</div>
+                <div class="stage-content">
+                    <div class="stage-visual">
+                        <svg class="stick-drawing" viewBox="0 0 300 200">
+                            <!-- Housing crisis emergency -->
+                            <circle cx="80" cy="80" r="15" fill="none" stroke="#333" stroke-width="2"></circle>
+                            <!-- Stressed but supported face -->
+                            <circle cx="76" cy="76" r="1" fill="#333"></circle>
+                            <circle cx="84" cy="76" r="1" fill="#333"></circle>
+                            <line x1="76" y1="84" x2="84" y2="84" stroke="#333" stroke-width="1"></line>
+                            <line x1="80" y1="95" x2="80" y2="120" stroke="#333" stroke-width="3"></line>
+                            <line x1="80" y1="105" x2="60" y2="110" stroke="#333" stroke-width="2"></line>
+                            <line x1="80" y1="105" x2="100" y2="110" stroke="#333" stroke-width="2"></line>
+                            
+                            <!-- AI coordinating emergency response -->
+                            <circle cx="130" cy="80" r="12" fill="#FF0000" stroke="#333" stroke-width="2"></circle>
+                            <rect x="126" y="76" width="2" height="2" fill="white"></rect>
+                            <rect x="132" y="76" width="2" height="2" fill="white"></rect>
+                            <rect x="128" y="82" width="4" height="1" fill="white"></rect>
+                            <!-- LGBTQ+ safety priority -->
+                            <text x="125" y="70" font-size="6" fill="#FF0000">🏳️‍🌈🚨</text>
+                            
+                            <!-- Emergency housing response -->
+                            <rect x="160" y="50" width="120" height="90" fill="white" stroke="#333" stroke-width="2"></rect>
+                            <text x="165" y="65" font-size="8" fill="#333">Emergency Housing Response:</text>
+                            
+                            <text x="165" y="78" font-size="6" fill="#333">🏠 Legal entity signs safe lease</text>
+                            <text x="165" y="88" font-size="6" fill="#333">🛡️ LGBTQ+ affirming landlord</text>
+                            <text x="165" y="98" font-size="6" fill="#333">🔒 Location kept confidential</text>
+                            <text x="165" y="108" font-size="6" fill="#333">📦 Move coordination private</text>
+                            <text x="165" y="118" font-size="6" fill="#333">⚖️ Legal protections activated</text>
+                            <text x="165" y="128" font-size="5" fill="#4CAF50">Safe housing secured in 48h</text>
+                            
+                            <!-- Chosen family support -->
+                            <rect x="40" y="140" width="200" height="50" fill="white" stroke="#333" stroke-width="2"></rect>
+                            <text x="45" y="155" font-size="8" fill="#333">Chosen Family Emergency Support:</text>
+                            <text x="45" y="168" font-size="6" fill="#333">✓ Immediate safe accommodation arranged</text>
+                            <text x="45" y="178" font-size="6" fill="#333">✓ Member helps with move (pseudonym only)</text>
+                            <text x="45" y="185" font-size="5" fill="#333">Real identity protected throughout crisis</text>
+                        </svg>
+                    </div>
+                    <div class="stage-text">
+                        <div class="stage-title">Emergency Housing Crisis &amp; Chosen Family Response</div>
+                        <div class="stage-description">
+                            When "Phoenix" faces housing eviction, the AI immediately prioritizes this as an LGBTQ+ youth safety crisis. The MOAI legal entity secures safe, affirming housing while maintaining location confidentiality. Chosen family members coordinate support while preserving his anonymity throughout the emergency response.
+                        </div>
+                        <div class="stage-details">
+                            <strong>Crisis Response:</strong> Immediate housing, legal protection, safety priority<br>
+                            <strong>Emotions:</strong> Scared but supported, amazed by rapid response<br>
+                            <strong>Safety Maintained:</strong> Identity protected even during crisis intervention
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Stage 6: Empowered Advocate & Chosen Family Leader -->
+            <div class="stage stage6">
+                <div class="stage-number">6</div>
+                <div class="stage-content">
+                    <div class="stage-visual">
+                        <svg class="stick-drawing" viewBox="0 0 300 200">
+                            <!-- Phoenix as empowered leader -->
+                            <circle cx="120" cy="70" r="16" fill="none" stroke="#333" stroke-width="3"></circle>
+                            <!-- Confident, strong face -->
+                            <circle cx="116" cy="66" r="2" fill="#333"></circle>
+                            <circle cx="124" cy="66" r="2" fill="#333"></circle>
+                            <path d="M 114 76 Q 120 80 126 76" stroke="#333" stroke-width="2" fill="none"></path>
+                            <!-- Strong, upright posture -->
+                            <line x1="120" y1="86" x2="120" y2="120" stroke="#333" stroke-width="4"></line>
+                            <!-- Arms reaching out to help -->
+                            <line x1="120" y1="95" x2="95" y2="105" stroke="#333" stroke-width="3"></line>
+                            <line x1="120" y1="95" x2="145" y2="105" stroke="#333" stroke-width="3"></line>
+                            
+                            <!-- New LGBTQ+ youth in crisis -->
+                            <circle cx="70" cy="120" r="14" fill="none" stroke="#333" stroke-width="2"></circle>
+                            <!-- Scared new member -->
+                            <circle cx="66" cy="116" r="1" fill="#333"></circle>
+                            <circle cx="74" cy="116" r="1" fill="#333"></circle>
+                            <line x1="66" y1="124" x2="74" y2="124" stroke="#333" stroke-width="1"></line>
+                            <line x1="70" y1="134" x2="70" y2="150" stroke="#333" stroke-width="2"></line>
+                            
+                            <text x="50" y="165" font-size="5" fill="#333">"Spark" (new)</text>
+                            <text x="100" y="140" font-size="5" fill="#333">"Phoenix" (leader)</text>
+                            
+                            <!-- LGBTQ+ advocacy -->
+                            <rect x="40" y="40" width="90" height="25" rx="12" fill="white" stroke="#333" stroke-width="2"></rect>
+                            <text x="45" y="50" font-size="6" fill="#333">"I survived family rejection too.</text>
+                            <text x="45" y="58" font-size="6" fill="#333">This chosen family is real."</text>
+                            
+                            <!-- Leadership activities -->
+                            <rect x="160" y="50" width="120" height="90" fill="white" stroke="#333" stroke-width="2"></rect>
+                            <text x="165" y="65" font-size="8" fill="#333">"Phoenix's" LGBTQ+ Leadership:</text>
+                            <text x="165" y="78" font-size="6" fill="#333">🏳️‍🌈 Crisis response training</text>
+                            <text x="165" y="88" font-size="6" fill="#333">🏠 Safe housing advocacy</text>
+                            <text x="165" y="98" font-size="6" fill="#333">⚖️ Legal rights education</text>
+                            <text x="165" y="108" font-size="6" fill="#333">💪 Chosen family building</text>
+                            <text x="165" y="118" font-size="6" fill="#333">🛡️ Identity protection advocate</text>
+                            <text x="165" y="128" font-size="5" fill="#4CAF50">Survivor to empowered leader</text>
+                            
+                            <!-- Chosen family success -->
+                            <rect x="40" y="170" width="220" height="25" rx="12" fill="#673AB7" stroke="#333" stroke-width="2"></rect>
+                            <text x="50" y="182" font-size="8" fill="white">Chosen Family Leadership - Anonymous but Powerful Advocacy</text>
+                            
+                            <!-- Success with pride -->
+                            <rect x="250" y="20" width="30" height="15" fill="#FF0000"></rect>
+                            <rect x="250" y="22" width="30" height="2" fill="#FFD700"></rect>
+                            <rect x="250" y="24" width="30" height="2" fill="#4CAF50"></rect>
+                            <rect x="250" y="26" width="30" height="2" fill="#2196F3"></rect>
+                            <rect x="250" y="28" width="30" height="2" fill="#9C27B0"></rect>
+                            <rect x="250" y="30" width="30" height="2" fill="#E91E63"></rect>
+                            <text x="235" y="50" font-size="5" fill="#333">Pride &amp;</text>
+                            <text x="235" y="57" font-size="5" fill="#333">Power</text>
+                        </svg>
+                    </div>
+                    <div class="stage-text">
+                        <div class="stage-title">Empowered LGBTQ+ Advocate &amp; Chosen Family Leader</div>
+                        <div class="stage-description">
+                            Having found safety and belonging in the chosen family, "Phoenix" becomes a powerful advocate for other LGBTQ+ youth in crisis. He provides anonymous mentorship, leads crisis response training, and advocates for identity protection - all while maintaining complete privacy. His transformation from vulnerable youth to empowered leader demonstrates the power of affirming, protected community.
+                        </div>
+                        <div class="stage-details">
+                            <strong>Leadership Role:</strong> Crisis advocate, chosen family builder, identity protector<br>
+                            <strong>Emotions:</strong> Empowered, proud, protective of community<br>
+                            <strong>Impact:</strong> Creating safe spaces for LGBTQ+ youth while maintaining absolute privacy
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body></html>
