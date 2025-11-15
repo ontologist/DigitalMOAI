@@ -89,6 +89,25 @@ And for vulnerable populations—people experiencing depression, anxiety, trauma
 ## Slide 3: The Empathy Paradox
 **Duration: 3 minutes**
 
+### What Makes This a "Paradox"?
+
+The term "paradox" highlights the counter-intuitive nature of empathy that contradicts our common assumptions:
+
+**What we intuitively think (the assumption):**
+- Empathy = sharing/mirroring someone's emotions
+- If someone is sad, show them you're sad too
+- Matching their emotional state demonstrates understanding
+
+**The paradox (the surprising research finding):**
+- Mirroring distress actually makes people feel WORSE
+- People rate mirrored sadness as "invalidating" and "aversive"
+- What actually helps is compassionate concern (NOT mirrored emotion)
+
+**Why it's paradoxical:**
+Real empathy is: "I see your pain, I understand it, and I'm here—steady, calm, present. You're not alone." This goes against our natural assumption that empathy means "I feel what you feel." When you're suffering, having someone else suffer WITH you doesn't help—it adds a second person who needs help.
+
+**The core paradox: The empathetic response that helps is NOT the one that mirrors the emotion.**
+
 ### Visual:
 - Two-panel comparison:
   - LEFT: "What We Think Empathy Is" - Two faces mirroring each other's sadness
